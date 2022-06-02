@@ -10,6 +10,7 @@ import numpy as np  # noqa
 import pandas as pd  # noqa
 from pandas import DataFrame
 
+
 from freqtrade.strategy import (BooleanParameter, CategoricalParameter, DecimalParameter, RealParameter,
                                 IStrategy, IntParameter, informative)
 
@@ -29,7 +30,7 @@ class Scalping(IStrategy):
     can_short: bool = True
     
 
-    multiple_leverage = 5
+    multiple_leverage = 1
 
     class HyperOpt:
         # Define a custom stoploss space.
@@ -53,7 +54,7 @@ class Scalping(IStrategy):
 
 
 
-    time_to_play = IntParameter(2, 4, default=3, space="buy")
+    time_to_play = IntParameter(2, 6, default=3, space="buy")
     #spcific diff ema
     BTC = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
     ETH = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
@@ -91,7 +92,6 @@ class Scalping(IStrategy):
     UNI = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
     ZIL = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
     LRC = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
-    XLM = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
     KAVA = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
     EGLD = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
     ALGO = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
@@ -106,6 +106,63 @@ class Scalping(IStrategy):
     OMG = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
     COMP = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
     C98 = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    NEO = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    IMX = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    UNFI = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    IOST = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    MTL = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    XLM = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    REEF = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    ONE = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    ENJ = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    TRB = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    DASH = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    TLM = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    ALPHA = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    AR = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    ATA = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    CELO = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    BAT = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    BNX = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    DAR = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    REN = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    STMX = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    ICX = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    HNT = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    ANT = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    FLOW = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    CTSI = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    CTK = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    STORJ = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    RLC = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    ARPA = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    OCEAN = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    CVC = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    LIT = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    XEM = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    KLAY = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    ONT = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    API3 = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    QTUM = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    SFP = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    RAY = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    BLZ = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    BAND = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    BAL = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    IOTX = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    DUSK = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    ANKR = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    SC = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    SRM = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    HBAR = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    BTS = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    WOO = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    ZEN = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    FTT = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    FLM = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    LPT = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    RVN = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
+    DGB = DecimalParameter(0.3,2.0,decimals=3,default=0.5,space="buy")
 
 
     stoploss = loss.value
@@ -133,7 +190,9 @@ class Scalping(IStrategy):
     plot_config = {
         'main_plot': {
             'ema50_5m': {'color':'orange'},
-            'ema200_5m': {'color': 'blue'}
+            'ema200_5m': {'color': 'blue'},
+            'bb_upper': {'color':'white'},
+            'bb_lower': {'color': 'white'}
         },
         'subplots': {
             "MACD": {
@@ -194,6 +253,62 @@ class Scalping(IStrategy):
             ,("OMG/USDT","5m")
             ,("COMP/USDT","5m")
             ,("C98/USDT","5m")
+            ,("NEO/USDT","5m")
+            ,("IMX/USDT","5m")
+            ,("UNFI/USDT","5m")
+            ,("IOST/USDT","5m")
+            ,("MTL/USDT","5m")
+            ,("REEF/USDT","5m")
+            ,("ONE/USDT","5m")
+            ,("ENJ/USDT","5m")
+            ,("TRB/USDT","5m")
+            ,("DASH/USDT","5m")
+            ,("TLM/USDT","5m")
+            ,("ALPHA/USDT","5m")
+            ,("AR/USDT","5m")
+            ,("ATA/USDT","5m")
+            ,("CELO/USDT","5m")
+            ,("BAT/USDT","5m")
+            ,("BNX/USDT","5m")
+            ,("DAR/USDT","5m")
+            ,("REN/USDT","5m")
+            ,("STMX/USDT","5m")
+            ,("ICX/USDT","5m")
+            ,("HNT/USDT","5m")
+            ,("ANT/USDT","5m")
+            ,("FLOW/USDT","5m")
+            ,("CTSI/USDT","5m")
+            ,("CTK/USDT","5m")
+            ,("STORJ/USDT","5m")
+            ,("RLC/USDT","5m")
+            ,("ARPA/USDT","5m")
+            ,("OCEAN/USDT","5m")
+            ,("CVC/USDT","5m")
+            ,("LIT/USDT","5m")
+            ,("XEM/USDT","5m")
+            ,("KLAY/USDT","5m")
+            ,("ONT/USDT","5m")
+            ,("API3/USDT","5m")
+            ,("QTUM/USDT","5m")
+            ,("SFP/USDT","5m")
+            ,("RAY/USDT","5m")
+            ,("BLZ/USDT","5m")
+            ,("BAND/USDT","5m")
+            ,("BAL/USDT","5m")
+            ,("IOTX/USDT","5m")
+            ,("DUSK/USDT","5m")
+            ,("ANKR/USDT","5m")
+            ,("SC/USDT","5m")
+            ,("SRM/USDT","5m")
+            ,("HBAR/USDT","5m")
+            ,("BTS/USDT","5m")
+            ,("WOO/USDT","5m")
+            ,("ZEN/USDT","5m")
+            ,("FTT/USDT","5m")
+            ,("FLM/USDT","5m")
+            ,("LPT/USDT","5m")
+            ,("RVN/USDT","5m")
+            ,("DGB/USDT","5m")
         ]
 
     @informative('5m')
@@ -247,6 +362,11 @@ class Scalping(IStrategy):
         dataframe['percent_ema_diff'] = percent_ema_diff
         dataframe['ema_crossed'] = ema_crossed
         dataframe['macd_mean'] = macd_mean 
+
+        bb_upper, bb_middle, bb_lower = ta.BBANDS(dataframe['close'], 20, 2.0, 2.0)
+        dataframe['bb_upper'] = bb_upper
+        dataframe['bb_middle'] = bb_middle
+        dataframe['bb_lower'] = bb_lower
         #helper.save_dataframe(dataframe)
         return dataframe
 
@@ -423,4 +543,122 @@ class Scalping(IStrategy):
             return self.COMP.value
         elif c=="C98":
             return self.C98.value
+        elif c=="NEO":
+            return self.NEO.value
+        elif c=="IMX":
+            return self.IMX.value
+        elif c=="UNFI":
+            return self.UNFI.value
+        elif c=="IOST":
+            return self.IOST.value
+        elif c=="MTL":
+            return self.MTL.value
+        elif c=="XLM":
+            return self.XLM.value
+        elif c=="YFI":
+            return self.YFI.value
+        elif c=="REEF":
+            return self.REEF.value
+        elif c=="ONE":
+            return self.ONE.value
+        elif c=="ENJ":
+            return self.ENJ.value
+        elif c=="TRB":
+            return self.TRB.value
+        elif c=="DASH":
+            return self.DASH.value
+        elif c=="TLM":
+            return self.TLM.value
+        elif c=="ALPHA":
+            return self.ALPHA.value
+        elif c=="AR":
+            return self.AR.value
+        elif c=="ATA":
+            return self.ATA.value
+        elif c=="CELO":
+            return self.CELO.value
+        elif c=="BAT":
+            return self.BAT.value
+        elif c=="BNX":
+            return self.BNX.value
+        elif c=="DAR":
+            return self.DAR.value
+        elif c=="REN":
+            return self.REN.value
+        elif c=="STMX":
+            return self.STMX.value
+        elif c=="ICX":
+            return self.ICX.value
+        elif c=="HNT":
+            return self.HNT.value
+        elif c=="ANT":
+            return self.ANT.value
+        elif c=="FLOW":
+            return self.FLOW.value
+        elif c=="CTSI":
+            return self.CTSI.value
+        elif c=="CTK":
+            return self.CTK.value
+        elif c=="STORJ":
+            return self.STORJ.value
+        elif c=="RLC":
+            return self.RLC.value
+        elif c=="ARPA":
+            return self.ARPA.value
+        elif c=="OCEAN":
+            return self.OCEAN.value
+        elif c=="CVC":
+            return self.CVC.value
+        elif c=="LIT":
+            return self.LIT.value
+        elif c=="XEM":
+            return self.XEM.value
+        elif c=="KLAY":
+            return self.KLAY.value
+        elif c=="ONT":
+            return self.ONT.value
+        elif c=="API3":
+            return self.API3.value
+        elif c=="QTUM":
+            return self.QTUM.value
+        elif c=="SFP":
+            return self.SFP.value
+        elif c=="RAY":
+            return self.RAY.value
+        elif c=="BLZ":
+            return self.BLZ.value
+        elif c=="BAND":
+            return self.BAND.value
+        elif c=="MKR":
+            return self.MKR.value
+        elif c=="BAL":
+            return self.BAL.value
+        elif c=="IOTX":
+            return self.IOTX.value
+        elif c=="DUSK":
+            return self.DUSK.value
+        elif c=="ANKR":
+            return self.ANKR.value
+        elif c=="SC":
+            return self.SC.value
+        elif c=="SRM":
+            return self.SRM.value
+        elif c=="HBAR":
+            return self.HBAR.value
+        elif c=="BTS":
+            return self.BTS.value
+        elif c=="WOO":
+            return self.WOO.value
+        elif c=="ZEN":
+            return self.ZEN.value
+        elif c=="FTT":
+            return self.FTT.value
+        elif c=="FLM":
+            return self.FLM.value
+        elif c=="LPT":
+            return self.LPT.value
+        elif c=="RVN":
+            return self.RVN.value
+        elif c=="DGB":
+            return self.DGB.value
         assert(False)
