@@ -1,7 +1,7 @@
 # pragma pylint: disable=missing-docstring, invalid-name, pointless-string-statement
 # flake8: noqa: F401
 
-from helper import helper
+#from helper import helper
 
 # --- Do not remove these libs ---
 from email.policy import default
@@ -27,6 +27,7 @@ import freqtrade.vendor.qtpylib.indicators as qtpylib
 class MACD(IStrategy):
     INTERFACE_VERSION = 3
     timeframe = '1h'
+    big_timeframe = '4h'
     can_short: bool = True
     minimal_roi = {
         "0": 100
@@ -44,8 +45,8 @@ class MACD(IStrategy):
 
     # Optional order type mapping.
     order_types = {
-        'entry': 'limit',
-        'exit': 'limit',
+        'entry': 'market',
+        'exit': 'market',
         'stoploss': 'market',
         'stoploss_on_exchange': False
     }
@@ -74,70 +75,6 @@ class MACD(IStrategy):
     @informative('4h')
     def populate_indicators_4h(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
         dataframe['ema200'] = ta.EMA(dataframe['close'], timeperiod = 200)
-        return dataframe
-
-    
-    def leverage(self, pair: str, current_time: 'datetime', current_rate: float,
-                 proposed_leverage: float, max_leverage: float, side: str,
-                 **kwargs) -> float:
-        return 10
-
-
-    def distance_enough(self,p1,p2):
-        p1 = float(p1)
-        p2 = float(p2)
-        return (abs(p1-p2)/min(p1,p2))*100 >= self.distance_price
-
-  
-
-    def is_support(self,dataframe:DataFrame,i:int,n1:int,n2:int) -> bool:
-        for j in range(i-n1,i):
-            if j<0 or j+1>=len(dataframe):
-                return False
-            if not self.distance_enough(dataframe.iloc[j]['low'],dataframe.iloc[j+1]['low']):
-                return False
-            if not(dataframe.iloc[j]['low'] < dataframe.iloc[j+1]['low']):
-                return False
-        for j in range(i,i+n2+1):
-            if j<0 or j+1>=len(dataframe):
-                return False
-            if not self.distance_enough(dataframe.iloc[j]['low'],dataframe.iloc[j+1]['low']):
-                return False
-            if not(dataframe.iloc[j]['low'] > dataframe.iloc[j+1]['low']):
-                return False
-        return True
-    
-
-    def is_resistance(self,dataframe:DataFrame,i:int,n1:int,n2:int) -> bool:
-        for j in range(i-n1,i):
-            if j<0 or j+1>=len(dataframe):
-                return False
-            if not self.distance_enough(dataframe.iloc[j]['high'],dataframe.iloc[j+1]['high']):
-                return False
-            if not(dataframe.iloc[j]['high'] > dataframe.iloc[j+1]['high']):
-                return False
-        for j in range(i,i+n2+1):
-            if j<0 or j+1>=len(dataframe):
-                return False
-            if not self.distance_enough(dataframe.iloc[j]['high'],dataframe.iloc[j+1]['high']):
-                return False
-            if not(dataframe.iloc[j]['high'] < dataframe.iloc[j+1]['high']):
-                return False
-        return True
-    
-    def plot_support_resistance(self,dataframe:DataFrame):
-        main_plot = self.plot_config['main_plot']
-        for i in range(len(dataframe)):
-            if dataframe.iloc[i]['is_support']:
-                dataframe[f'support_{i}'] = [dataframe.iloc[i]['low']] * len(dataframe)
-                main_plot[f'support_{i}'] = {'color':'orange'}
-            if dataframe.iloc[i]['is_resistance']:
-                dataframe[f'resistance_{i}'] = [dataframe.iloc[i]['low']] * len(dataframe)
-                main_plot[f'resistance_{i}'] = {'color':'purple'}
-        return dataframe
-        
-
-    def populate_indicators(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
         n1 = 3
         n2 = 3
         support = []
@@ -169,25 +106,86 @@ class MACD(IStrategy):
         dataframe['touch_support'] = touch_support
         dataframe['touch_resistance'] = touch_resistance
 
-        dataframe['macd_hist'] = ta.MACD(dataframe['close'], timeperiod=14)[2]
-
         dataframe = self.plot_support_resistance(dataframe)
+        return dataframe
+
+    
+    def leverage(self, pair: str, current_time: 'datetime', current_rate: float,
+                 proposed_leverage: float, max_leverage: float, side: str,
+                 **kwargs) -> float:
+        return 25
+
+
+    def distance_enough(self,p1,p2):
+        p1 = float(p1)
+        p2 = float(p2)
+        return (abs(p1-p2)/min(p1,p2))*100 >= self.distance_price
+
+  
+
+    def is_support(self,dataframe:DataFrame,i:int,n1:int,n2:int) -> bool:
+        for j in range(i-n1,i):
+            if j<0 or j+1>=len(dataframe):
+                return False
+            if not self.distance_enough(dataframe.iloc[j]['low'],dataframe.iloc[j+1]['low']):
+                return False
+            if not(dataframe.iloc[j]['low'] > dataframe.iloc[j+1]['low']):
+                return False
+        for j in range(i,i+n2+1):
+            if j<0 or j+1>=len(dataframe):
+                return False
+            if not self.distance_enough(dataframe.iloc[j]['low'],dataframe.iloc[j+1]['low']):
+                return False
+            if not(dataframe.iloc[j]['low'] < dataframe.iloc[j+1]['low']):
+                return False
+        return True
+    
+
+    def is_resistance(self,dataframe:DataFrame,i:int,n1:int,n2:int) -> bool:
+        for j in range(i-n1,i):
+            if j<0 or j+1>=len(dataframe):
+                return False
+            if not self.distance_enough(dataframe.iloc[j]['high'],dataframe.iloc[j+1]['high']):
+                return False
+            if not(dataframe.iloc[j]['high'] < dataframe.iloc[j+1]['high']):
+                return False
+        for j in range(i,i+n2+1):
+            if j<0 or j+1>=len(dataframe):
+                return False
+            if not self.distance_enough(dataframe.iloc[j]['high'],dataframe.iloc[j+1]['high']):
+                return False
+            if not(dataframe.iloc[j]['high'] > dataframe.iloc[j+1]['high']):
+                return False
+        return True
+    
+    def plot_support_resistance(self,dataframe:DataFrame):
+        main_plot = self.plot_config['main_plot']
+        for i in range(len(dataframe)):
+            if dataframe.iloc[i]['is_support']:
+                dataframe[f'support_{i}'] = [dataframe.iloc[i]['low']] * len(dataframe)
+                main_plot[f'support_{i}_4h'] = {'color':'orange'}
+            if dataframe.iloc[i]['is_resistance']:
+                dataframe[f'resistance_{i}'] = [dataframe.iloc[i]['high']] * len(dataframe)
+                main_plot[f'resistance_{i}_4h'] = {'color':'purple'}
+        return dataframe
+        
+
+    def populate_indicators(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
+        dataframe['macd_hist'] = ta.MACD(dataframe['close'], timeperiod=14)[2]
         #helper.save_dataframe(dataframe)
         return dataframe
 
     
-    @staticmethod
-    def touch_support(dataframe:DataFrame,i:int,interesting_back_candle:int):
+    def touch_support(self,dataframe:DataFrame,i:int,interesting_back_candle:int):
         for j in range(i-interesting_back_candle,i):
-            if dataframe.iloc[j]['touch_support']:
-                return (True,dataframe.iloc[j]['low'])
+            if dataframe.iloc[j]['touch_support_4h']:
+                return (True,dataframe.iloc[j]['low_4h'])
         return (False,None)
     
-    @staticmethod
-    def touch_resistance(dataframe:DataFrame,i:int,interesting_back_candle:int):
+    def touch_resistance(self,dataframe:DataFrame,i:int,interesting_back_candle:int):
         for j in range(i-interesting_back_candle,i):
-            if dataframe.iloc[j]['touch_resistance']:
-                return (True,dataframe.iloc[j]['high'])
+            if dataframe.iloc[j]['touch_resistance_4h']:
+                return (True,dataframe.iloc[j]['high_4h'])
         return (False,None)
 
     def populate_entry_trend(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
