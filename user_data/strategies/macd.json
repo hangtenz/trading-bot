@@ -1,0 +1,26 @@
+{
+  "strategy_name": "MACD",
+  "params": {
+    "roi": {
+      "0": 100
+    },
+    "stoploss": {
+      "stoploss": -1.0
+    },
+    "trailing": {
+      "trailing_stop": false,
+      "trailing_stop_positive": null,
+      "trailing_stop_positive_offset": 0.0,
+      "trailing_only_offset_is_reached": false
+    },
+    "buy": {
+      "position_lost_percentage": 0.935,
+      "r2r": 1.819,
+      "risk_level": 0.09
+    },
+    "sell": {},
+    "protection": {}
+  },
+  "ft_stratparam_v": 1,
+  "export_time": "2022-06-13 01:19:28.228394+00:00"
+}
